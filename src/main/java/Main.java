@@ -11,8 +11,6 @@ public class Main {
             System.out.print("$ ");
             input = scanner.nextLine();
 
-            String command = input.split(" ", 2)[0];
-
             if (input.equals("exit 0"))
                 break;
 
