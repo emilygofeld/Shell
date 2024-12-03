@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import commands.HandleCommands;
+
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -14,7 +16,11 @@ public class Main {
             if (input.equals("exit 0"))
                 break;
 
-            System.out.printf("%s: command not found\n", input);
+            if (HandleCommands.directCommand(input)) {
+                System.out.printf("%s: command not found\n", input);
+            }
         }
+
+        scanner.close();
     }
 }
