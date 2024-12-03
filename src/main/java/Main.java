@@ -16,7 +16,7 @@ public class Main {
             if (input.equals("exit 0"))
                 break;
 
-            if (!HandleCommands.directCommand(command)) {
+            if (!HandleCommands.directCommand(input)) {
                 System.out.printf("%s: command not found\n", input);
             }
         }
