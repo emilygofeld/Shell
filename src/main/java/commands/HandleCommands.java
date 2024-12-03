@@ -10,31 +10,39 @@ public class HandleCommands {
     }
 
 
-    public static boolean directCommand(String cmd) {
-        String[] parts = cmd.split(" ", 2); // Split at the first space
+    public static String directCommand(String userInput) {
+        String[] parts = userInput.split(" ", 2); 
         String command = parts[0];
         String data = parts.length > 1 ? parts[1] : "";
 
-        switch(command) {
-            case "echo":
-                System.out.println(data);
-                break;
-            case "type":
-                System.out.print(typeCmd(data));
-                break;
+        Command cmdType = getCommandType(command);
+
+        switch(cmdType) {
+            case echo:
+                return data;
+            case type:
+                return typeCmd(data);
+            case exit:
+                return "";
             default:
-                return false;
+                return (userInput + ": command not found\n");
         }
-        return true;
     }
 
-
     private static String typeCmd(String data) {
+        Command type = getCommandType(data);
+
+        if (type != null)
+            return (type + " is a shell builtin\n");
+        else
+            return (data + ": not found\n"); 
+    }
+
+    private static Command getCommandType(String command) {
         try {
-            Command.valueOf(data);
-            return (data + " is a shell builtin\n");
+            return Command.valueOf(command);
         } catch (IllegalArgumentException e) {
-            return (data + ": not found\n");
+            return null;
         }
     }
 }
