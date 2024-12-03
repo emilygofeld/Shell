@@ -34,7 +34,7 @@ public class HandleCommands {
             Command.valueOf(data);
             return (data + " is a shell builtin\n");
         } catch (IllegalArgumentException e) {
-            return (data + ": not found");
+            return (data + ": not found\n");
         }
     }
 }
