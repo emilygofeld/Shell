@@ -30,9 +30,11 @@ public class HandleCommands {
 
 
     private static String typeCmd(String data) {
-        if (Command.valueOf(data) != null) {
+        try {
+            Command.valueOf(data);
             return (data + " is a shell builtin\n");
+        } catch (IllegalArgumentException e) {
+            return (data + ": not found");
         }
-        return (data + ": not found");
     }
 }
