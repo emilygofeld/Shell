@@ -1,36 +1,29 @@
 package commands;
 
+import java.util.Scanner;
 
 public class HandleCommands {
+    public static String directCommand(final String userInput) {
+        final Scanner parserScanner = new Scanner(userInput);
+        final String command = parserScanner.next();
+        final String data = parserScanner.nextLine().substring(1);
 
-    enum Command {
-        echo,
-        type,
-        exit
-    }
-
-
-    public static String directCommand(String userInput) {
-        String[] parts = userInput.split(" ", 2); 
-        String command = parts[0];
-        String data = parts.length > 1 ? parts[1] : "";
-
-        Command cmdType = getCommandType(command);
+        final Command cmdType = getCommandType(command);
 
         switch(cmdType) {
-            case echo:
+            case ECHO:
                 return data;
-            case type:
+            case TYPE:
                 return typeCmd(data);
-            case exit:
+            case EXIT:
                 return "";
             default:
                 return (userInput + ": command not found\n");
         }
     }
 
-    private static String typeCmd(String data) {
-        Command type = getCommandType(data);
+    private static String typeCmd(final String data) {
+        final Command type = getCommandType(data.toUpperCase());
 
         if (type != null)
             return (type + " is a shell builtin\n");
@@ -38,11 +31,17 @@ public class HandleCommands {
             return (data + ": not found\n"); 
     }
 
-    private static Command getCommandType(String command) {
+    private static Command getCommandType(final String command) {
         try {
             return Command.valueOf(command);
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+    
+    enum Command {
+        ECHO,
+        TYPE,
+        EXIT
     }
 }
