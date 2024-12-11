@@ -49,6 +49,6 @@ public class Parser {
         if (path != null)
             return path;
 
-        return command + ": not found";
+        return command + ": not found\n";
     }
 }
