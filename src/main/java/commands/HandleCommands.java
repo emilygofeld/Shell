@@ -1,6 +1,7 @@
 package main.java.commands;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class HandleCommands {
 
@@ -20,9 +21,12 @@ public class HandleCommands {
             // Execute the command
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 
+            System.out.println("Full command: " + Arrays.toString(fullCommand) + "\n\n");
+
             // Read the output
             return new String(cmdProcess.getInputStream().readAllBytes());
         } catch (IOException e) {
+            System.out.println("Exception");
             return commandNotFound(command + " " + data);
         }
     }
