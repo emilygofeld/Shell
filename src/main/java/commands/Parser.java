@@ -4,8 +4,6 @@ import main.java.commands.HandleCommands.Command;
 
 import java.util.Scanner;
 
-import static main.java.commands.HandleCommands.commandNotFound;
-
 public class Parser {
 
     public static String parseCommand(final String userInput) {

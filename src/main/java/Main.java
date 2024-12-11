@@ -1,9 +1,8 @@
 package main.java;
 
-import java.util.Scanner;
-
-import main.java.commands.HandleCommands;
 import main.java.commands.Parser;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
