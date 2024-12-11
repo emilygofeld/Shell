@@ -1,3 +1,5 @@
+package main.java;
+
 import main.java.commands.Parser;
 
 import java.util.Scanner;
