@@ -12,10 +12,7 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
-            String[] args = data.split(" ");
-            String[] fullCommand = new String[args.length + 1];
-            fullCommand[0] = path + command;
-            System.arraycopy(args, 0, fullCommand, 1, args.length);
+            String[] fullCommand = new String[] {path, data};
             System.out.printf("\nCommand: %s, Data: %s, path: %s, Full path: %s",
                     command,
                     data,
