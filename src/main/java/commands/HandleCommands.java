@@ -13,15 +13,10 @@ public class HandleCommands {
             }
 
             String[] fullCommand = new String[] {command, data};
-
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
-//            cmdProcess.getInputStream().transferTo(System.out);
 
-            System.out.println(new String(cmdProcess.getInputStream().readAllBytes()));
-
-            return new String(cmdProcess.getInputStream().readAllBytes());
+            return new String(cmdProcess.getInputStream().readAllBytes()) + "\n";
         } catch (IOException e) {
-            System.out.println("\nException");
             return commandNotFound(command + " " + data);
         }
     }
