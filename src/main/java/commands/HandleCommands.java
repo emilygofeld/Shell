@@ -1,7 +1,6 @@
 package main.java.commands;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class HandleCommands {
 
@@ -22,7 +21,7 @@ public class HandleCommands {
     }
 
     public static String commandNotFound(String cmd) {
-        return cmd + ": not found\n";
+        return cmd + ": command not found\n";
     }
 
     enum Command {

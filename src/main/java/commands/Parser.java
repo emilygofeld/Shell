@@ -12,9 +12,9 @@ public class Parser {
     public static String parseCommand(final String userInput) {
         final Scanner parserScanner = new Scanner(userInput);
         final String command = parserScanner.next();
-        String data = "";
-        if (parserScanner.hasNext())
-            data = parserScanner.nextLine().substring(1);
+        if (!parserScanner.hasNext())
+            return commandNotFound(command);
+        final String data = parserScanner.nextLine().substring(1);
 
         final Command cmdType = getCommandType(command);
 
@@ -49,6 +49,6 @@ public class Parser {
         if (path != null)
             return path;
 
-        return commandNotFound(command);
+        return command + ": not found";
     }
 }
