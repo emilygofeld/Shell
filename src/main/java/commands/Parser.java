@@ -9,7 +9,9 @@ public class Parser {
     public static String parseCommand(final String userInput) {
         final Scanner parserScanner = new Scanner(userInput);
         final String command = parserScanner.next();
-        final String data = parserScanner.nextLine().substring(1);
+        String data = "";
+        if (parserScanner.hasNext())
+            data = parserScanner.nextLine().substring(1);
 
         final Command cmdType = getCommandType(command);
 
