@@ -17,11 +17,11 @@ public class HandleCommands {
             String[] fullCommand = new String[args.length + 1];
             fullCommand[0] = path + command; // Full path to the command
             System.arraycopy(args, 0, fullCommand, 1, args.length);
+            
+            System.out.println(Arrays.toString(fullCommand));
 
             // Execute the command
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
-
-            System.out.println("Full command: " + Arrays.toString(fullCommand) + "\n\n");
 
             // Read the output
             return new String(cmdProcess.getInputStream().readAllBytes());
