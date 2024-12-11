@@ -4,6 +4,9 @@ import main.java.commands.HandleCommands.Command;
 
 import java.util.Scanner;
 
+import static main.java.commands.HandleCommands.commandNotFound;
+import static main.java.commands.HandleCommands.runOtherCommand;
+
 public class Parser {
 
     public static String parseCommand(final String userInput) {
@@ -19,7 +22,8 @@ public class Parser {
             case ECHO -> data + "\n";
             case TYPE -> typeCmd(data);
             case EXIT -> "";
-            case null -> (userInput + ": command not found\n");
+            case null ->
+                runOtherCommand(command, data); // try to see if user runs command from PATH
         };
     }
 
@@ -29,7 +33,7 @@ public class Parser {
         if (type != null)
             return (type.toString().toLowerCase() + " is a shell builtin\n");
         else
-            return PathHandler.pathType(data);
+            return checkNonSpecificCommand(data);
     }
 
     private static Command getCommandType(final String command) {
@@ -38,5 +42,13 @@ public class Parser {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    private static String checkNonSpecificCommand(String command) {
+        String path = PathHandler.findFilePath(command);
+        if (path != null)
+            return path;
+
+        return commandNotFound(command);
     }
 }

@@ -6,11 +6,11 @@ import java.nio.file.Path;
 import static main.java.commands.HandleCommands.commandNotFound;
 
 public class PathHandler {
-    public static String getPath() {
+    private static String getPath() {
         return System.getenv("PATH");
     }
 
-    private static String findFile(String file) {
+    public static String findFilePath(String file) {
         for (String path : getPath().split(":")) {
             Path filePath = Path.of(path, file);
             if (Files.isRegularFile(filePath)) {
