@@ -8,15 +8,21 @@ public class HandleCommands {
         try {
             String path = PathHandler.findFilePath(command);
             if (path == null) {
-                System.out.println("Path not found");
                 return commandNotFound(command + " " + data);
             }
 
-            String[] fullCmdPath = (path + command + " " + data).split(" ");
-            Process cmdProcess = Runtime.getRuntime().exec(fullCmdPath);
+            // Split data into individual arguments
+            String[] args = data.split(" ");
+            String[] fullCommand = new String[args.length + 1];
+            fullCommand[0] = path + command; // Full path to the command
+            System.arraycopy(args, 0, fullCommand, 1, args.length);
+
+            // Execute the command
+            Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
+
+            // Read the output
             return new String(cmdProcess.getInputStream().readAllBytes());
         } catch (IOException e) {
-            System.out.println("Exception");
             return commandNotFound(command + " " + data);
         }
     }
