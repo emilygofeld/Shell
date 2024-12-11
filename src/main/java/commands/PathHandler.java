@@ -21,7 +21,7 @@ public class PathHandler {
     }
 
     public static String pathType(String fileName) {
-        String path = PathHandler.findFile(fileName);
+        String path = PathHandler.findFilePath(fileName);
         if (path != null)
             return path;
         return commandNotFound(fileName);
