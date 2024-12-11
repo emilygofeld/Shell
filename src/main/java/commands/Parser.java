@@ -14,7 +14,7 @@ public class Parser {
         final Command cmdType = getCommandType(command);
 
         return switch (cmdType) {
-            case ECHO -> data;
+            case ECHO -> data + "\n";
             case TYPE -> typeCmd(data);
             case EXIT -> "";
             case null -> (userInput + ": command not found\n");
