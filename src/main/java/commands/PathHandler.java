@@ -14,7 +14,7 @@ public class PathHandler {
         for (String path : getPath().split(":")) {
             Path filePath = Path.of(path, file);
             if (Files.isRegularFile(filePath)) {
-                return filePath.toString();
+                return filePath.toString() + "\n";
             }
         }
         return null;
