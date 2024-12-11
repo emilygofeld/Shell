@@ -1,6 +1,7 @@
 package main.java.commands;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HandleCommands {
 
@@ -16,7 +17,8 @@ public class HandleCommands {
 
             return new String(cmdProcess.getInputStream().readAllBytes());
         } catch (IOException e) {
-            return commandNotFound(command + " " + data);
+            final String cmd = (Objects.equals(data, ""))? command : command + " " + data;
+            return commandNotFound(cmd);
         }
     }
 

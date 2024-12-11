@@ -10,11 +10,13 @@ import static main.java.commands.HandleCommands.runOtherCommand;
 public class Parser {
 
     public static String parseCommand(final String userInput) {
+
         final Scanner parserScanner = new Scanner(userInput);
         final String command = parserScanner.next();
-        if (!parserScanner.hasNext())
-            return commandNotFound(command);
-        final String data = parserScanner.nextLine().substring(1);
+
+        String data = "";
+        if (parserScanner.hasNext())
+            data = parserScanner.nextLine().substring(1);
 
         final Command cmdType = getCommandType(command);
 
