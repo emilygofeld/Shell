@@ -12,13 +12,15 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
-            // Split data into individual arguments
             String[] args = data.split(" ");
             String[] fullCommand = new String[args.length + 1];
-            fullCommand[0] = path + command; // Full path to the command
+            fullCommand[0] = path + command;
             System.arraycopy(args, 0, fullCommand, 1, args.length);
-            
-            System.out.println(Arrays.toString(fullCommand));
+            System.out.printf("\nCommand: %s, Data: %s, path: %s, Full path: %s",
+                    command,
+                    data,
+                    path,
+                    Arrays.toString(fullCommand));
 
             // Execute the command
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
