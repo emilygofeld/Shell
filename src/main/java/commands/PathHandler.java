@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import static main.java.commands.HandleCommands.commandNotFound;
 
 public class PathHandler {
-    private static String getPath() {
+    public static String getPath() {
         return System.getenv("PATH");
     }
 

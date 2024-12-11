@@ -19,9 +19,14 @@ public class Parser {
         final Command cmdType = getCommandType(command);
 
         return switch (cmdType) {
-            case ECHO -> data + "\n";
-            case TYPE -> typeCmd(data);
-            case EXIT -> "";
+            case ECHO ->
+                    data + "\n";
+            case TYPE ->
+                    typeCmd(data);
+            case PWD ->
+                    PathHandler.getPath() + "\n";
+            case EXIT ->
+                    "";
             case null ->
                 runOtherCommand(command, data); // try to see if user runs command from PATH
         };

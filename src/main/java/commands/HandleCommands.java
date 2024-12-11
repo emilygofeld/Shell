@@ -27,6 +27,7 @@ public class HandleCommands {
     enum Command {
         ECHO,
         TYPE,
+        PWD,
         EXIT
     }
 }
