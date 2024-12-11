@@ -25,7 +25,7 @@ public class Parser {
         final Command type = getCommandType(data);
 
         if (type != null)
-            return (type + " is a shell builtin\n");
+            return (type.toString().toLowerCase() + " is a shell builtin\n");
         else
             return PathHandler.pathType(data);
     }
