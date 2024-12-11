@@ -1,10 +1,13 @@
+package main.java;
+
 import java.util.Scanner;
 
-import commands.HandleCommands;
+import main.java.commands.HandleCommands;
+import main.java.commands.Parser;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-       runShell();
+        runShell();
     }
 
     public static void runShell() {
@@ -12,13 +15,10 @@ public class Main {
         String input = "", exitCmd = "exit 0";
 
         while (!input.equals(exitCmd)) {
-            System.out.print("$ ");
+            System.out.print("\n$ ");
             input = scanner.nextLine();
 
-            if (input.equals(exitCmd))
-                break;
-
-            System.out.print(HandleCommands.directCommand(input));
+            System.out.print(Parser.parseCommand(input));
         }
         scanner.close();
     }
