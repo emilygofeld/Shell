@@ -12,7 +12,7 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
-            String[] fullCommand = new String[] {path, data};
+            String[] fullCommand = new String[] {command, data};
 
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 //            cmdProcess.getInputStream().transferTo(System.out);
