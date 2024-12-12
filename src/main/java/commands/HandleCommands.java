@@ -31,7 +31,7 @@ public class HandleCommands {
     public static String cdCommand(String data) {
         if (Files.isDirectory(Path.of(data))) {
             PathHandler.workingDir = data;
-            return "";
+            return "\n";
         }
         else {
             return "cd: " + data + ": No such file or directory\n";
