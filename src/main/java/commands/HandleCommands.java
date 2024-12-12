@@ -3,7 +3,6 @@ package main.java.commands;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,13 +37,13 @@ public class HandleCommands {
             PathHandler.workingDir = data;
             return "";
         }
-        else  {
-            cdSpecialPath(data);
-        }
+        else if (cdSpecialPath(data))
+                return "";
+
         return "cd: " + data + ": No such file or directory\n";
     }
 
-    private static void cdSpecialPath(String path) {
+    private static Boolean cdSpecialPath(String path) {
         String strPath = workingDir;
         for (String dir : path.split("/")) {
             if (dir.equals(cdDirs.getLast())) {
@@ -57,12 +56,12 @@ public class HandleCommands {
         strPath = strPath.substring(0, strPath.length()-2);
         if (Files.isDirectory(Path.of(strPath))) {
             PathHandler.workingDir = strPath;
+            return true;
         }
+        return false;
     }
 
-    static final private List<String> cdDirs = Collections.unmodifiableList(
-            List.of(".", "..")
-    );
+    static final private List<String> cdDirs = List.of(".", "..");
 
     enum Command {
         ECHO,
