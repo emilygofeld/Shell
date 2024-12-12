@@ -4,6 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class PathHandler {
+
+    public static String workingDir = getWorkingDir();
+
     public static String getPath() {
         return System.getenv("PATH");
     }

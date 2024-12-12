@@ -4,7 +4,8 @@ import main.java.commands.HandleCommands.Command;
 
 import java.util.Scanner;
 
-import static main.java.commands.HandleCommands.runOtherCommand;
+import static main.java.commands.HandleCommands.cdCommand;
+import static main.java.commands.HandleCommands.runOtherFilesCommand;
 
 public class Parser {
 
@@ -25,11 +26,13 @@ public class Parser {
             case TYPE ->
                     typeCmd(data);
             case PWD ->
-                    PathHandler.getWorkingDir() + "\n";
+                    PathHandler.workingDir + "\n";
+            case CD ->
+                cdCommand(data);
             case EXIT ->
                     "";
             case null ->
-                runOtherCommand(command, data); // try to see if user runs command from PATH
+                runOtherFilesCommand(command, data); // check if user runs command from PATH
         };
     }
 
