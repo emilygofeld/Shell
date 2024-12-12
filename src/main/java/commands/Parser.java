@@ -4,7 +4,6 @@ import main.java.commands.HandleCommands.Command;
 
 import java.util.Scanner;
 
-import static main.java.commands.HandleCommands.commandNotFound;
 import static main.java.commands.HandleCommands.runOtherCommand;
 
 public class Parser {
@@ -26,7 +25,7 @@ public class Parser {
             case TYPE ->
                     typeCmd(data);
             case PWD ->
-                    PathHandler.getPath() + "\n";
+                    PathHandler.getWorkingDir() + "\n";
             case EXIT ->
                     "";
             case null ->

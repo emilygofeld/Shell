@@ -3,8 +3,6 @@ package main.java.commands;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static main.java.commands.HandleCommands.commandNotFound;
-
 public class PathHandler {
     public static String getPath() {
         return System.getenv("PATH");
@@ -20,11 +18,7 @@ public class PathHandler {
         return null;
     }
 
-//    public static String pathType(String fileName) {
-//        String path = PathHandler.findFilePath(fileName);
-//        if (path != null)
-//            return path;
-//        return commandNotFound(fileName);
-//    }
-
+    public static String getWorkingDir() {
+        return System.getProperty("user.dir");
+    }
 }
