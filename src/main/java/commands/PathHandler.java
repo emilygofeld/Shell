@@ -24,4 +24,8 @@ public class PathHandler {
     public static String getWorkingDir() {
         return System.getProperty("user.dir");
     }
+
+    public static String getParentDir(String path) {
+        return path.substring(0, path.lastIndexOf("/"));
+    }
 }
