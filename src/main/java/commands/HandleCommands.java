@@ -18,7 +18,7 @@ public class HandleCommands {
             return data.substring(1, data.length()-1);
         }
 
-        return data;
+        return data.replaceAll("\\s+", " ").trim();
     }
 
     public static String catCommand (String data) {
