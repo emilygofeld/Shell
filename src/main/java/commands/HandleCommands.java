@@ -1,14 +1,40 @@
 package main.java.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static main.java.commands.PathHandler.getHomeDir;
 import static main.java.commands.PathHandler.workingDir;
 
 public class HandleCommands {
+
+    public static String echoCommand (String data) {
+        if (data.startsWith("'") && data.endsWith("'")) {
+            return data.substring(1, data.length()-1);
+        }
+
+        return data;
+    }
+
+    public static String catCommand (String data) {
+        List<String> content = new ArrayList<>();
+        int start = 0, end = 0;
+
+        try {
+            for (String fileName : data.split(" ")) {
+                File file = new File(fileName);
+                if (file.exists())
+                    content.add(Files.readString(Path.of(workingDir + "/" + fileName)));
+            }
+        } catch (Exception _) {}
+
+        return String.join(", ", content);
+    }
 
     public static String runOtherFilesCommand(String command, String data) {
         try {
@@ -74,6 +100,7 @@ public class HandleCommands {
         TYPE,
         PWD,
         CD,
+        CAT,
         EXIT
     }
 }

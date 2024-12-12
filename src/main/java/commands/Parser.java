@@ -4,8 +4,7 @@ import main.java.commands.HandleCommands.Command;
 
 import java.util.Scanner;
 
-import static main.java.commands.HandleCommands.cdCommand;
-import static main.java.commands.HandleCommands.runOtherFilesCommand;
+import static main.java.commands.HandleCommands.*;
 
 public class Parser {
 
@@ -22,13 +21,15 @@ public class Parser {
 
         return switch (cmdType) {
             case ECHO ->
-                    data + "\n";
+                    echoCommand(data) + "\n";
             case TYPE ->
                     typeCmd(data);
             case PWD ->
                     PathHandler.workingDir + "\n";
             case CD ->
                 cdCommand(data);
+            case CAT ->
+                catCommand(data) + "\n";
             case EXIT ->
                     "";
             case null ->
