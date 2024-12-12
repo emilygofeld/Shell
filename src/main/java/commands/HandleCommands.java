@@ -56,7 +56,7 @@ public class HandleCommands {
         if (strPath.charAt(strPath.length()-1) == '/')
             strPath = strPath.substring(0, strPath.length()-1);
 
-        System.out.println(strPath);
+//        System.out.println(strPath);
 
         if (Files.isDirectory(Path.of(strPath))) {
             PathHandler.workingDir = strPath;
