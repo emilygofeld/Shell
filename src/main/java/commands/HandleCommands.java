@@ -54,7 +54,7 @@ public class HandleCommands {
             }
         }
         if (strPath.charAt(strPath.length()-1) == '/')
-            strPath = strPath.substring(0, strPath.length()-2);
+            strPath = strPath.substring(0, strPath.length()-1);
 
         System.out.println(strPath);
 
