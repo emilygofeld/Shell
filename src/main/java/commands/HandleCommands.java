@@ -23,7 +23,7 @@ public class HandleCommands {
     }
 
     public static String commandNotFound(String cmd) {
-        return cmd + ": command not found\n";
+        return cmd.trim() + ": command not found\n";
     }
 
     enum Command {
