@@ -47,13 +47,13 @@ public class HandleCommands {
         String strPath = workingDir;
         for (String dir : path.split("/")) {
             if (dir.equals(cdDirs.getLast())) {
-                strPath = getParentDir(strPath);
+                strPath = getParentDir(strPath) + "/";
             }
             else if (!dir.equals(cdDirs.getFirst())) {
                 strPath += dir + "/";
             }
         }
-        strPath = strPath.substring(0, strPath.length()-2);
+        strPath = strPath.substring(0, strPath.length()-1);
         System.out.println(strPath);
         if (Files.isDirectory(Path.of(strPath))) {
             PathHandler.workingDir = strPath;
