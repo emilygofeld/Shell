@@ -34,7 +34,7 @@ public class HandleCommands {
             return "";
         }
         else {
-            return "cd: " + data + ": No such file or directory";
+            return "cd: " + data + ": No such file or directory\n";
         }
     }
 

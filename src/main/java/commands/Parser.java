@@ -28,7 +28,7 @@ public class Parser {
             case PWD ->
                     PathHandler.workingDir + "\n";
             case CD ->
-                cdCommand(data) + "\n";
+                cdCommand(data).trim() + "\n";
             case EXIT ->
                     "";
             case null ->
