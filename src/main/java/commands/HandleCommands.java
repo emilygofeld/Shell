@@ -48,8 +48,6 @@ public class HandleCommands {
     private static Boolean cdSpecialPath(String path) {
         Path currentPath = Path.of(workingDir);
 
-        System.out.println("currentPath: " + currentPath);
-
         for (String dir : path.split("/")) {
             if (dir.equals("..")) {
                 currentPath = currentPath.getParent();
