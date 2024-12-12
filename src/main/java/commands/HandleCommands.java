@@ -44,7 +44,7 @@ public class HandleCommands {
     }
 
     private static Boolean cdSpecialPath(String path) {
-        String strPath = workingDir;
+        String strPath = workingDir + "/";
         for (String dir : path.split("/")) {
             if (dir.equals(cdDirs.getLast())) {
                 strPath = getParentDir(strPath) + "/";
@@ -53,8 +53,11 @@ public class HandleCommands {
                 strPath += dir + "/";
             }
         }
-        strPath = strPath.substring(0, strPath.length()-1);
+        if (strPath.charAt(strPath.length()-1) == '/')
+            strPath = strPath.substring(0, strPath.length()-2);
+
         System.out.println(strPath);
+
         if (Files.isDirectory(Path.of(strPath))) {
             PathHandler.workingDir = strPath;
             return true;
