@@ -11,6 +11,10 @@ public class PathHandler {
         return System.getenv("PATH");
     }
 
+    public static String getHomeDir() {
+        return System.getenv("HOME");
+    }
+
     public static String findFilePath(String file) {
         for (String path : getPath().split(":")) {
             Path filePath = Path.of(path, file);

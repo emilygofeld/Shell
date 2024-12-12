@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import static main.java.commands.PathHandler.getHomeDir;
 import static main.java.commands.PathHandler.workingDir;
 
 public class HandleCommands {
@@ -34,15 +35,20 @@ public class HandleCommands {
         if (data.contains("../") || data.contains("./")) {
             if (cdSpecialPath(data))
                 return "";
-
         }
-            if (Files.isDirectory(Path.of(data))) {
-                PathHandler.workingDir = data;
-                return "";
-            } else if (cdSpecialPath(data))
-                return "";
+        if (data.equals("~")) {
+            workingDir = getHomeDir();
+            return "";
+        }
 
-            return "cd: " + data + ": No such file or directory\n";
+        if (Files.isDirectory(Path.of(data))) {
+            PathHandler.workingDir = data;
+            return "";
+        }
+        else if (cdSpecialPath(data))
+            return "";
+
+        return "cd: " + data + ": No such file or directory\n";
     }
 
     private static Boolean cdSpecialPath(String path) {
