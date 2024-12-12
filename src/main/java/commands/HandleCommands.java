@@ -54,6 +54,7 @@ public class HandleCommands {
             }
         }
         strPath = strPath.substring(0, strPath.length()-2);
+        System.out.println(strPath);
         if (Files.isDirectory(Path.of(strPath))) {
             PathHandler.workingDir = strPath;
             return true;
