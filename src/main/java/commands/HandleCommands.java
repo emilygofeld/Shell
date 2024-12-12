@@ -3,10 +3,8 @@ package main.java.commands;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Objects;
 
-import static main.java.commands.PathHandler.getParentDir;
 import static main.java.commands.PathHandler.workingDir;
 
 public class HandleCommands {
@@ -33,39 +31,39 @@ public class HandleCommands {
     }
 
     public static String cdCommand(String data) {
-        if (Files.isDirectory(Path.of(data))) {
-            PathHandler.workingDir = data;
-            return "";
-        }
-        else if (cdSpecialPath(data))
+        if (data.contains("../") || data.contains("./")) {
+            if (cdSpecialPath(data))
                 return "";
 
-        return "cd: " + data + ": No such file or directory\n";
+        }
+            if (Files.isDirectory(Path.of(data))) {
+                PathHandler.workingDir = data;
+                return "";
+            } else if (cdSpecialPath(data))
+                return "";
+
+            return "cd: " + data + ": No such file or directory\n";
     }
 
     private static Boolean cdSpecialPath(String path) {
-        String strPath = workingDir + "/";
+        Path currentPath = Path.of(workingDir);
+
+        System.out.println("currentPath: " + currentPath);
+
         for (String dir : path.split("/")) {
-            if (dir.equals(cdDirs.getLast())) {
-                strPath = getParentDir(strPath) + "/";
-            }
-            else if (!dir.equals(cdDirs.getFirst())) {
-                strPath += dir + "/";
+            if (dir.equals("..")) {
+                currentPath = currentPath.getParent();
+            } else if (!dir.equals(".") && !dir.isEmpty()) {
+                currentPath = currentPath.resolve(dir);
             }
         }
-        if (strPath.charAt(strPath.length()-1) == '/')
-            strPath = strPath.substring(0, strPath.length()-1);
 
-//        System.out.println(strPath);
-
-        if (Files.isDirectory(Path.of(strPath))) {
-            PathHandler.workingDir = strPath;
+        if (Files.isDirectory(currentPath)) {
+            PathHandler.workingDir = currentPath.toString();
             return true;
         }
         return false;
     }
-
-    static final private List<String> cdDirs = List.of(".", "..");
 
     enum Command {
         ECHO,
