@@ -23,17 +23,16 @@ public class HandleCommands {
 
     public static String catCommand (String data) {
         List<String> content = new ArrayList<>();
-        int start = 0, end = 0;
 
         try {
             for (String fileName : data.split(" ")) {
-                File file = new File(fileName);
+                File file = new File(fileName.replace("'", ""));
                 if (file.exists())
                     content.add(Files.readString(Path.of(workingDir + "/" + fileName)));
             }
         } catch (Exception _) {}
 
-        return String.join(", ", content);
+        return String.join(" ", content);
     }
 
     public static String runOtherFilesCommand(String command, String data) {
