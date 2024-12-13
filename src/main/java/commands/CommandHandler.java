@@ -25,12 +25,15 @@ public class CommandHandler {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
+        Pattern pattern = Pattern.compile("(\"[^\"]*\"|'[^']*')");
         try {
-            // regex to match either single or double-quoted paths
-            Matcher matcher = Pattern.compile("(\"[^\"]*\"|'[^']*')").matcher(data);
+            Matcher matcher = pattern.matcher(data);
 
             while (matcher.find()) {
-                String fileName = StringFormatter.format(matcher.group(2));
+                String fileName = matcher.group(1);
+                fileName = fileName.substring(1, fileName.length() - 1);
+
+                fileName = StringFormatter.format(fileName);
                 content.add(getProcessResult(cat, fileName));
             }
         } catch (Exception e) {
