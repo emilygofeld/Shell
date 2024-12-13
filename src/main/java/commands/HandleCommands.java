@@ -15,11 +15,16 @@ public class HandleCommands {
 
     public static String echoCommand (String data) {
         List<String> outputs = new ArrayList<>();
-        Matcher matcher = Pattern.compile("\"([^\"]*)\"").matcher(data);
+
+        // regex to match either single or double-quoted paths
+        Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
 
         while (matcher.find()) {
-            outputs.add(matcher.group(1).trim());
+            outputs.add(matcher.group(2).trim());
         }
+
+        if (outputs.isEmpty())
+            return data.replaceAll("\\s+", " ").trim();
 
         return String.join(" ", outputs);
     }
