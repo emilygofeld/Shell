@@ -74,11 +74,11 @@ public class Parser {
 
     public static String parseOneQuotedData(String data) {
         if (data.startsWith("\"") || data.endsWith("\"")) {
-            return data.replace("\"", "");
+            return data.replace("\"", "").trim();
         }
 
         if (data.startsWith("'") || data.endsWith("'")) {
-            return data.replace("'", "");
+            return data.replace("'", "").trim();
         }
 
         return data;
