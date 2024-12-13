@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.commands.PathHandler.workingDir;
 
 public class CommandHandler {
 
@@ -42,7 +41,7 @@ public class CommandHandler {
                 return "";
         }
         if (data.equals("~")) {
-            workingDir = PathHandler.getHomeDir();
+            PathHandler.workingDir = PathHandler.getHomeDir();
             return "";
         }
 
@@ -61,7 +60,7 @@ public class CommandHandler {
         String cat = "cat";
 
         try {
-            List<String> filePaths = Parser.extractFilePaths(data);
+            List<String> filePaths = PathExtractor.extractFilePaths(data);
 
             for (String path : filePaths) {
                 String formattedPath = StringFormatter.format(path);
@@ -75,7 +74,7 @@ public class CommandHandler {
     }
 
     private static Boolean cdSpecialPath(String path) {
-        Path currentPath = Path.of(workingDir);
+        Path currentPath = Path.of(PathHandler.workingDir);
 
         for (String dir : path.split("/")) {
             if (dir.equals("..")) {

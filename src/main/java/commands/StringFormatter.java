@@ -1,8 +1,5 @@
 package main.java.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class StringFormatter {
 
     private static final StringBuilder output = new StringBuilder();
@@ -93,7 +90,6 @@ public class StringFormatter {
     }
 
     private static void handleDataOutsideQuotes(char data) {
-        if (data != ' ')
-            output.append(data);
+        if (data != ' ') output.append(data);
     }
 }

@@ -1,8 +1,5 @@
 package main.java.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static main.java.commands.CommandHandler.*;
 
 public class Parser {
@@ -26,48 +23,6 @@ public class Parser {
     public static String parseEchoCommand(String cmd) {
         cmd = cmd.replaceAll("\\s+", " ").trim();
         return cmd.replace("\\", "");
-    }
-
-    public static List<String> extractFilePaths(final String data) {
-        List<String> filePaths = new ArrayList<>();
-        StringBuilder currentPath = new StringBuilder();
-        boolean insideSingleQuotes = false;
-        boolean insideDoubleQuotes = false;
-
-        for (int i = 0; i < data.length(); i++) {
-            char current = data.charAt(i);
-
-            if (current == '\'' && !insideDoubleQuotes) {
-                insideSingleQuotes = !insideSingleQuotes;
-                currentPath.append(current);
-
-            } else if (current == '"' && !insideSingleQuotes) {
-                insideDoubleQuotes = !insideDoubleQuotes;
-                currentPath.append(current);
-
-            } else if (current == '\\' && insideDoubleQuotes) {
-                currentPath.append(current);
-                if (i + 1 < data.length()) {
-                    currentPath.append(data.charAt(i + 1));
-                    i++;
-                }
-
-            } else if (Character.isWhitespace(current) && !insideSingleQuotes && !insideDoubleQuotes) {
-                if (!currentPath.isEmpty()) {
-                    filePaths.add(currentPath.toString());
-                    currentPath.setLength(0);
-                }
-
-            } else {
-                currentPath.append(current);
-            }
-        }
-
-        if (!currentPath.isEmpty()) {
-            filePaths.add(currentPath.toString());
-        }
-
-        return filePaths;
     }
 
     private static String typeCmd(final String data) {
@@ -97,8 +52,7 @@ public class Parser {
 
     private static String[] getInput(final String userInput) {
         String enclosingChar = String.valueOf(userInput.charAt(0));
-        String command;
-        String data;
+        String command, data;
 
         if (enclosingChar.equals("'") || enclosingChar.equals("\"")) {
             int lastQuoteIndex = userInput.lastIndexOf(enclosingChar);
@@ -117,6 +71,5 @@ public class Parser {
 
         return new String[] { command, data };
     }
-
 }
 
