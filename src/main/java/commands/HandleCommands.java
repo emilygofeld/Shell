@@ -27,14 +27,15 @@ public class HandleCommands {
         try {
             for (String fileName : data.split("' '")) {
                 String trimmedFileName = fileName.replace("'", "");
+
                 File file = new File(trimmedFileName);
-
-//                if (file.exists()) {
-                    content.add(Files.readString(Path.of(workingDir + "/" + fileName)));
-//                }
-
+                if (file.exists() && file.isFile()) {
+                    content.add(Files.readString(Path.of(trimmedFileName)));
+                } else {
+                    System.err.println("File not found: " + trimmedFileName);
+                }
             }
-        } catch (Exception _) {}
+        } catch (Exception _) { }
 
         return String.join(" ", content);
     }
