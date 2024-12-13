@@ -29,7 +29,7 @@ public class Parser {
             case CD ->
                 cdCommand(data);
             case CAT ->
-                catCommand(data) + "\n";
+                catCommand(data);
             case EXIT ->
                     "";
             case null ->
