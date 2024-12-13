@@ -12,6 +12,7 @@ import static main.java.commands.PathHandler.workingDir;
 public class HandleCommands {
 
     public static String echoCommand (String data) {
+        System.out.println(data);
         if (countChar(data, '"') <= 2)
             return Parser.parseDoubleQuotedData(data);
 
