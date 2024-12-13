@@ -13,21 +13,31 @@ import static main.java.commands.PathHandler.workingDir;
 
 public class CommandHandler {
 
-    public static String echoCommand (String data) {
-        List<String> outputs = new ArrayList<>();
+//    public static String echoCommand (String data) {
+//        List<String> outputs = new ArrayList<>();
+//
+//        // regex to match either single or double-quoted paths
+//        Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
+//
+//        while (matcher.find()) {
+//            outputs.add(matcher.group(2).trim());
+//        }
+//
+//        if (outputs.isEmpty())
+//            return Parser.parseEchoCommand(data);
+//
+//        return String.join(" ", outputs);
+//    }
 
-        // regex to match either single or double-quoted paths
-        Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
+    public static String echoCommand(String data) {
 
-        while (matcher.find()) {
-            outputs.add(matcher.group(2).trim());
-        }
-
-        if (outputs.isEmpty())
+        if (!(data.contains("'") || data.contains("\"")))
             return Parser.parseEchoCommand(data);
 
-        return String.join(" ", outputs);
+        return StringFormatter.format(data);
     }
+
+
 
     public static String catCommand(String data) {
         List<String> content = new ArrayList<>();
@@ -38,7 +48,7 @@ public class CommandHandler {
             Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
 
             while (matcher.find()) {
-                String fileName = Parser.parsePathBackslashes(matcher.group(2), 2);
+                String fileName = StringFormatter.format(matcher.group(2));
                 content.add(getProcessResult(cat, fileName));
             }
         } catch (Exception _) {
