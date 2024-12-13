@@ -62,7 +62,7 @@ public class Parser {
     public static String parsePathBackslashes(String path) {
         return path
                 .replace("\\$", "$")
-                .replace("\\n", "\n")
+                .replace("\\\n", "\\n")
                 .replace("\\`", "`")
                 .replace("\\\"", "\"")
                 .replace("\\\\", "\\");
