@@ -44,6 +44,8 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
+            System.out.printf("command = %s, data = %s", command, data);
+
             if (command.equals("cat"))
                 data = data.replace("'", "");
 
