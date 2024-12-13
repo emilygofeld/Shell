@@ -16,17 +16,22 @@ public class StringFormatter {
             char current = data.charAt(i);
 
             if (isSingleQuote(current) && !insideDoubleQuotes) {
-                toggleSingleQuoteState();
+                boolean isNextSpace = i + 1 < data.length() - 1 && data.charAt(i + 1) == ' ';
+                toggleSingleQuoteState(i, isNextSpace);
             } else if (isDoubleQuote(current) && !insideSingleQuotes) {
-                toggleDoubleQuoteState();
+                boolean isNextSpace = i + 1 < data.length() - 1 && data.charAt(i + 1) == ' ';
+                toggleDoubleQuoteState(i, isNextSpace);
             } else if (isBackslash(current) && insideDoubleQuotes) {
                 handleBackslashesInsideQuotes(data, i);
                 i++;
             } else if (isBackslash(current) && !insideSingleQuotes) {
                 handleBackslashesOutsideQuotes(data, i);
                 i++;
-            } else {
-                output.append(current);
+            } else if (!insideDoubleQuotes && !insideSingleQuotes) {
+                handleDataOutsideQuotes(data.charAt(i));
+            }
+            else {
+                output.append(data.charAt(i));
             }
         }
 
@@ -77,7 +82,6 @@ public class StringFormatter {
     }
 
 
-
     private static boolean isSingleQuote(char current) {
         return current == '\'';
     }
@@ -90,12 +94,18 @@ public class StringFormatter {
         return current == '\\';
     }
 
-    private static void toggleSingleQuoteState() {
+    private static void toggleSingleQuoteState(int index, boolean isNextSpace) {
         insideSingleQuotes = !insideSingleQuotes;
+
+        if (index != 0 && isNextSpace)
+            output.append(" ");
     }
 
-    private static void toggleDoubleQuoteState() {
+    private static void toggleDoubleQuoteState(int index, boolean isNextSpace) {
         insideDoubleQuotes = !insideDoubleQuotes;
+
+        if (index != 0  && isNextSpace)
+            output.append(" ");
     }
 
     private static void handleBackslashesInsideQuotes(String data, int i) {
@@ -124,5 +134,13 @@ public class StringFormatter {
         } else {
             output.append('\\');
         }
+    }
+
+    private static void handleDataOutsideQuotes(char data) {
+        if (data == '/') {
+            output.append(' ');
+        }
+        if (data != ' ')
+            output.append(data);
     }
 }
