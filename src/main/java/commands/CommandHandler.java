@@ -13,22 +13,6 @@ import static main.java.commands.PathHandler.workingDir;
 
 public class CommandHandler {
 
-//    public static String echoCommand (String data) {
-//        List<String> outputs = new ArrayList<>();
-//
-//        // regex to match either single or double-quoted paths
-//        Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
-//
-//        while (matcher.find()) {
-//            outputs.add(matcher.group(2).trim());
-//        }
-//
-//        if (outputs.isEmpty())
-//            return Parser.parseEchoCommand(data);
-//
-//        return String.join(" ", outputs);
-//    }
-
     public static String echoCommand(String data) {
 
         if (!(data.contains("'") || data.contains("\"")))
@@ -36,8 +20,6 @@ public class CommandHandler {
 
         return StringFormatter.format(data);
     }
-
-
 
     public static String catCommand(String data) {
         List<String> content = new ArrayList<>();
@@ -49,15 +31,15 @@ public class CommandHandler {
 
             while (matcher.find()) {
                 String fileName = StringFormatter.format(matcher.group(2));
+                System.out.println(fileName);
                 content.add(getProcessResult(cat, fileName));
             }
-        } catch (Exception _) {
+        } catch (Exception e) {
             return commandNotFound(cat);
         }
 
         return String.join("", content);
     }
-
 
     public static String runOtherFilesCommand(String command, String data) {
         try {
