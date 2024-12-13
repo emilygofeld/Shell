@@ -12,8 +12,21 @@ import static main.java.commands.PathHandler.workingDir;
 public class HandleCommands {
 
     public static String echoCommand (String data) {
-        return Parser.parseEchoData(data);
+        if (countChar(data, '"') <= 2)
+            return Parser.parseDoubleQuotedData(data);
+
+        List<String> outputs = new ArrayList<>();
+
+        for (String str : data.split("\" \"")) {
+            outputs.add(Parser.parseOneQuotedData(str));
+        }
+        return String.join(" ", outputs);
     }
+
+    public static long countChar(String str, char target) {
+        return str.chars().filter(c -> c == target).count();
+    }
+
 
     public static String catCommand (String data) {
         List<String> content = new ArrayList<>();
@@ -21,7 +34,7 @@ public class HandleCommands {
 
         try {
             for (String fileName : data.split("' '")) {
-                String trimmedFileName = Parser.parseCatData(fileName);
+                String trimmedFileName = Parser.parseOneQuotedData(fileName);
                 String[] fullCommand = new String[] {cat, trimmedFileName};
                 Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 

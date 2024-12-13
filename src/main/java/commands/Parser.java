@@ -60,7 +60,7 @@ public class Parser {
         return command + ": not found\n";
     }
 
-    public static String parseEchoData(String data) {
+    public static String parseDoubleQuotedData(String data) {
         if (data.startsWith("\"") && data.endsWith("\"")) {
             return data.replace("\"", "");
         }
@@ -72,7 +72,7 @@ public class Parser {
         return data.replaceAll("\\s+", " ").trim();
     }
 
-    public static String parseCatData(String data) {
+    public static String parseOneQuotedData(String data) {
         if (data.startsWith("\"") || data.endsWith("\"")) {
             return data.replace("\"", "");
         }
