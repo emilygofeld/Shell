@@ -1,5 +1,8 @@
 package main.java.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringFormatter {
 
     private static final StringBuilder output = new StringBuilder();
@@ -29,6 +32,50 @@ public class StringFormatter {
 
         return output.toString();
     }
+
+    public static List<String> extractFilePaths(String data) {
+        List<String> filePaths = new ArrayList<>();
+        StringBuilder currentPath = new StringBuilder();
+        boolean insideSingleQuotes = false;
+        boolean insideDoubleQuotes = false;
+
+        for (int i = 0; i < data.length(); i++) {
+            char current = data.charAt(i);
+
+            if (current == '\'' && !insideDoubleQuotes) {
+                insideSingleQuotes = !insideSingleQuotes;
+                currentPath.append(current);
+
+            } else if (current == '"' && !insideSingleQuotes) {
+                insideDoubleQuotes = !insideDoubleQuotes;
+                currentPath.append(current);
+
+            } else if (current == '\\' && insideDoubleQuotes) {
+                currentPath.append(current);
+                if (i + 1 < data.length()) {
+                    currentPath.append(data.charAt(i + 1));
+                    i++;
+                }
+
+            } else if (Character.isWhitespace(current) && !insideSingleQuotes && !insideDoubleQuotes) {
+                if (!currentPath.isEmpty()) {
+                    filePaths.add(currentPath.toString());
+                    currentPath.setLength(0);
+                }
+
+            } else {
+                currentPath.append(current);
+            }
+        }
+
+        // Add the last path if it exists
+        if (!currentPath.isEmpty()) {
+            filePaths.add(currentPath.toString());
+        }
+
+        return filePaths;
+    }
+
 
 
     private static boolean isSingleQuote(char current) {

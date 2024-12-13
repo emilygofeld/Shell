@@ -21,28 +21,43 @@ public class CommandHandler {
         return StringFormatter.format(data);
     }
 
+//    public static String catCommand(String data) {
+//        List<String> content = new ArrayList<>();
+//        String cat = "cat";
+//
+//        try {
+//            // regex to match either single or double-quoted paths
+//            Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
+//
+//            while (matcher.find()) {
+//                String fileName = StringFormatter.format(matcher.group(2));
+//                content.add(getProcessResult(cat, fileName));
+//            }
+//        } catch (Exception e) {
+//            return commandNotFound(cat);
+//        }
+//
+//        return String.join("", content);
+//    }
+
     public static String catCommand(String data) {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
-        Pattern pattern = Pattern.compile("(\"[^\"]*\"|'[^']*')");
         try {
-            Matcher matcher = pattern.matcher(data);
+            List<String> filePaths = StringFormatter.extractFilePaths(data);
 
-            while (matcher.find()) {
-                String fileName = matcher.group(1);
-                fileName = fileName.substring(1, fileName.length() - 1);
-
-                fileName = StringFormatter.format(fileName);
-                content.add(getProcessResult(cat, fileName));
+            for (String path : filePaths) {
+                String formattedPath = StringFormatter.format(path);
+                content.add(getProcessResult(cat, formattedPath));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return commandNotFound(cat);
         }
 
         return String.join("", content);
     }
+
 
     public static String runOtherFilesCommand(String command, String data) {
         try {
