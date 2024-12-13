@@ -26,7 +26,9 @@ public class HandleCommands {
 
         try {
             for (String fileName : data.split(" ")) {
-                File file = new File(fileName.replace("'", ""));
+                String trimmedFileName = fileName.replace("'", "");
+                File file = new File(trimmedFileName);
+                System.out.println(trimmedFileName);
                 if (file.exists())
                     content.add(Files.readString(Path.of(workingDir + "/" + fileName)));
             }
