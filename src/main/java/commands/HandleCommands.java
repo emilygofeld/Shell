@@ -72,7 +72,7 @@ public class HandleCommands {
             String[] fullCommand = new String[] {command, data};
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 
-            return new String(cmdProcess.getInputStream().readAllBytes()) + "\n";
+            return new String(cmdProcess.getInputStream().readAllBytes());
         } catch (IOException e) {
             final String cmd = (Objects.equals(data, ""))? command : command + " " + data;
             return commandNotFound(cmd);
