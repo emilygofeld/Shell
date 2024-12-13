@@ -2,6 +2,8 @@ package main.java.commands;
 
 import main.java.commands.CommandHandler.Command;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static main.java.commands.CommandHandler.*;
@@ -69,6 +71,48 @@ public class Parser {
                 .replace("\\\\", "\\");
 
         return path;
+    }
+
+    public static List<String> extractFilePaths(String data) {
+        List<String> filePaths = new ArrayList<>();
+        StringBuilder currentPath = new StringBuilder();
+        boolean insideSingleQuotes = false;
+        boolean insideDoubleQuotes = false;
+
+        for (int i = 0; i < data.length(); i++) {
+            char current = data.charAt(i);
+
+            if (current == '\'' && !insideDoubleQuotes) {
+                insideSingleQuotes = !insideSingleQuotes;
+                currentPath.append(current);
+
+            } else if (current == '"' && !insideSingleQuotes) {
+                insideDoubleQuotes = !insideDoubleQuotes;
+                currentPath.append(current);
+
+            } else if (current == '\\' && insideDoubleQuotes) {
+                currentPath.append(current);
+                if (i + 1 < data.length()) {
+                    currentPath.append(data.charAt(i + 1));
+                    i++;
+                }
+
+            } else if (Character.isWhitespace(current) && !insideSingleQuotes && !insideDoubleQuotes) {
+                if (!currentPath.isEmpty()) {
+                    filePaths.add(currentPath.toString());
+                    currentPath.setLength(0);
+                }
+
+            } else {
+                currentPath.append(current);
+            }
+        }
+
+        if (!currentPath.isEmpty()) {
+            filePaths.add(currentPath.toString());
+        }
+
+        return filePaths;
     }
 }
 

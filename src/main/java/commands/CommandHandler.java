@@ -12,54 +12,16 @@ import static main.java.commands.PathHandler.workingDir;
 public class CommandHandler {
 
     public static String echoCommand(String data) {
-
         if (!(data.contains("'") || data.contains("\"")))
             return Parser.parseEchoCommand(data);
 
         return StringFormatter.format(data);
     }
 
-//    public static String catCommand(String data) {
-//        List<String> content = new ArrayList<>();
-//        String cat = "cat";
-//
-//        try {
-//            // regex to match either single or double-quoted paths
-//            Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
-//
-//            while (matcher.find()) {
-//                String fileName = StringFormatter.format(matcher.group(2));
-//                content.add(getProcessResult(cat, fileName));
-//            }
-//        } catch (Exception e) {
-//            return commandNotFound(cat);
-//        }
-//
-//        return String.join("", content);
-//    }
-
-    public static String catCommand(String data) {
-        List<String> content = new ArrayList<>();
-        String cat = "cat";
-
-        try {
-            List<String> filePaths = StringFormatter.extractFilePaths(data);
-
-            for (String path : filePaths) {
-                String formattedPath = StringFormatter.format(path);
-                content.add(getProcessResult(cat, formattedPath));
-            }
-        } catch (Exception e) {
-            return commandNotFound(cat);
-        }
-
-        return String.join("", content);
-    }
-
-
     public static String runOtherFilesCommand(String command, String data) {
         try {
-            String path = PathHandler.findFilePath(command);
+            String formattedCmd = StringFormatter.format(command);
+            String path = PathHandler.findFilePath(formattedCmd);
             if (path == null) {
                 return commandNotFound(command + " " + data);
             }
@@ -67,7 +29,7 @@ public class CommandHandler {
             if (command.equals("cat"))
                 return catCommand(data);
 
-            return getProcessResult(command, data);
+            return getProcessResult(formattedCmd, data);
         } catch (IOException e) {
             final String cmd = (Objects.equals(data, ""))? command : command + " " + data;
             return commandNotFound(cmd);
@@ -92,6 +54,24 @@ public class CommandHandler {
             return "";
 
         return "cd: " + data + ": No such file or directory\n";
+    }
+
+    private static String catCommand(String data) {
+        List<String> content = new ArrayList<>();
+        String cat = "cat";
+
+        try {
+            List<String> filePaths = Parser.extractFilePaths(data);
+
+            for (String path : filePaths) {
+                String formattedPath = StringFormatter.format(path);
+                content.add(getProcessResult(cat, formattedPath));
+            }
+        } catch (Exception e) {
+            return commandNotFound(cat);
+        }
+
+        return String.join("", content);
     }
 
     private static Boolean cdSpecialPath(String path) {
