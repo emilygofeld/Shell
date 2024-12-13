@@ -25,7 +25,7 @@ public class HandleCommands {
         List<String> content = new ArrayList<>();
 
         try {
-            for (String fileName : data.split(" ")) {
+            for (String fileName : data.split("' '")) {
                 String trimmedFileName = fileName.replace("'", "");
                 File file = new File(trimmedFileName);
                 System.out.printf("\nfileName = %s, trimmedName = %s", fileName, trimmedFileName);
