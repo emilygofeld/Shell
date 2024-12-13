@@ -6,37 +6,36 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static main.java.commands.PathHandler.workingDir;
 
 public class HandleCommands {
 
     public static String echoCommand (String data) {
-        System.out.println(data);
-        if (countChar(data, '"') <= 2)
-            return Parser.parseDoubleQuotedData(data);
-
         List<String> outputs = new ArrayList<>();
+        Matcher matcher = Pattern.compile("\"([^\"]*)\"").matcher(data);
 
-        for (String str : data.split("\" \"")) {
-            outputs.add(Parser.parseOneQuotedData(str));
-            System.out.println(Parser.parseOneQuotedData(str));
+        while (matcher.find()) {
+            outputs.add(matcher.group(1).trim());
         }
+
         return String.join(" ", outputs);
     }
 
-    public static long countChar(String str, char target) {
-        return str.chars().filter(c -> c == target).count();
-    }
-
-    public static String catCommand (String data) {
+    public static String catCommand(String data) {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
         try {
-            for (String fileName : data.split("' '")) {
-                String trimmedFileName = Parser.parseOneQuotedData(fileName);
-                String[] fullCommand = new String[] {cat, trimmedFileName};
+            // regex to match either single or double-quoted paths
+            Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
+
+            while (matcher.find()) {
+                String fileName = matcher.group(2);
+
+                String[] fullCommand = new String[] {cat, fileName};
                 Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 
                 content.add(new String(cmdProcess.getInputStream().readAllBytes()));
@@ -45,6 +44,7 @@ public class HandleCommands {
 
         return String.join("", content);
     }
+
 
     public static String runOtherFilesCommand(String command, String data) {
         try {
