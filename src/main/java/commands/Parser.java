@@ -1,10 +1,10 @@
 package main.java.commands;
 
-import main.java.commands.HandleCommands.Command;
+import main.java.commands.CommandHandler.Command;
 
 import java.util.Scanner;
 
-import static main.java.commands.HandleCommands.*;
+import static main.java.commands.CommandHandler.*;
 
 public class Parser {
 
@@ -20,18 +20,12 @@ public class Parser {
         final Command cmdType = getCommandType(command);
 
         return switch (cmdType) {
-            case ECHO ->
-                    echoCommand(data) + "\n";
-            case TYPE ->
-                    typeCmd(data);
-            case PWD ->
-                    PathHandler.workingDir + "\n";
-            case CD ->
-                cdCommand(data);
-            case EXIT ->
-                    "";
-            case null ->
-                runOtherFilesCommand(command, data); // check if user runs command from PATH
+            case ECHO -> echoCommand(data) + "\n";
+            case TYPE -> typeCmd(data);
+            case PWD -> PathHandler.workingDir + "\n";
+            case CD -> cdCommand(data);
+            case EXIT -> "";
+            case null -> runOtherFilesCommand(command, data); // check if user runs command from PATH
         };
     }
 
@@ -60,27 +54,18 @@ public class Parser {
         return command + ": not found\n";
     }
 
-    public static String parseDoubleQuotedData(String data) {
-        if (data.startsWith("\"") && data.endsWith("\"")) {
-            return data.replace("\"", "");
-        }
-
-        if (data.startsWith("'") && data.endsWith("'")) {
-            return data.replace("'", "");
-        }
-
-        return data.replaceAll("\\s+", " ").trim();
+    public static String parseEchoCommand(String cmd) {
+        cmd = cmd.replaceAll("\\s+", " ").trim();
+        return cmd.replace("\\", " ");
     }
 
-    public static String parseOneQuotedData(String data) {
-        if (data.startsWith("\"") || data.endsWith("\"")) {
-            return data.replace("\"", "").trim();
-        }
-
-        if (data.startsWith("'") || data.endsWith("'")) {
-            return data.replace("'", "").trim();
-        }
-
-        return data;
+    public static String parsePathBackslashes(String path) {
+        return path
+                .replace("\\$", "$")
+                .replace("\\n", "\n")
+                .replace("\\`", "`")
+                .replace("\\\"", "\"")
+                .replace("\\\\", "\\");
     }
 }
+

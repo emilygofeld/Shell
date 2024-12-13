@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import static main.java.commands.PathHandler.workingDir;
 
-public class HandleCommands {
+public class CommandHandler {
 
     public static String echoCommand (String data) {
         List<String> outputs = new ArrayList<>();
@@ -24,7 +24,7 @@ public class HandleCommands {
         }
 
         if (outputs.isEmpty())
-            return data.replaceAll("\\s+", " ").trim();
+            return Parser.parseEchoCommand(data);
 
         return String.join(" ", outputs);
     }
@@ -38,14 +38,12 @@ public class HandleCommands {
             Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
 
             while (matcher.find()) {
-                String fileName = matcher.group(2);
-
-                String[] fullCommand = new String[] {cat, fileName};
-                Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
-
-                content.add(new String(cmdProcess.getInputStream().readAllBytes()));
+                String fileName = Parser.parsePathBackslashes(matcher.group(2));
+                content.add(getProcessResult(cat, fileName));
             }
-        } catch (Exception _) { }
+        } catch (Exception _) {
+            return commandNotFound(cat);
+        }
 
         return String.join("", content);
     }
@@ -61,19 +59,11 @@ public class HandleCommands {
             if (command.equals("cat"))
                 return catCommand(data);
 
-
-            String[] fullCommand = new String[] {command, data};
-            Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
-
-            return new String(cmdProcess.getInputStream().readAllBytes());
+            return getProcessResult(command, data);
         } catch (IOException e) {
             final String cmd = (Objects.equals(data, ""))? command : command + " " + data;
             return commandNotFound(cmd);
         }
-    }
-
-    public static String commandNotFound(String cmd) {
-        return cmd.trim() + ": command not found\n";
     }
 
     public static String cdCommand(String data) {
@@ -112,6 +102,17 @@ public class HandleCommands {
             return true;
         }
         return false;
+    }
+
+    private static String getProcessResult(String command, String data) throws IOException {
+        String[] fullCommand = new String[] {command, data};
+        Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
+
+        return new String(cmdProcess.getInputStream().readAllBytes());
+    }
+
+    private static String commandNotFound(String cmd) {
+        return cmd.trim() + ": command not found\n";
     }
 
     enum Command {
