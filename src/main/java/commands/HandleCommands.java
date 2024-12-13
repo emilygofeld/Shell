@@ -19,6 +19,7 @@ public class HandleCommands {
 
         for (String str : data.split("\" \"")) {
             outputs.add(Parser.parseOneQuotedData(str));
+            System.out.println(Parser.parseOneQuotedData(str));
         }
         return String.join(" ", outputs);
     }
@@ -26,7 +27,6 @@ public class HandleCommands {
     public static long countChar(String str, char target) {
         return str.chars().filter(c -> c == target).count();
     }
-
 
     public static String catCommand (String data) {
         List<String> content = new ArrayList<>();
