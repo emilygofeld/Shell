@@ -25,8 +25,6 @@ public class CommandHandler {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
-        System.out.println(StringFormatter.format(data));
-
         try {
             // regex to match either single or double-quoted paths
             Matcher matcher = Pattern.compile("(\"[^\"]*\"|'[^']*')").matcher(data);
@@ -36,6 +34,7 @@ public class CommandHandler {
                 content.add(getProcessResult(cat, fileName));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return commandNotFound(cat);
         }
 
