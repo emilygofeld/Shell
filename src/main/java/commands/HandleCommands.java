@@ -1,6 +1,5 @@
 package main.java.commands;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,37 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.commands.PathHandler.getHomeDir;
 import static main.java.commands.PathHandler.workingDir;
 
 public class HandleCommands {
 
     public static String echoCommand (String data) {
-        if (data.startsWith("'") && data.endsWith("'")) {
-            return data.substring(1, data.length()-1);
-        }
-
-        return data.replaceAll("\\s+", " ").trim();
+        return Parser.parseEchoData(data);
     }
-
-//    public static String catCommand (String data) {
-//        List<String> content = new ArrayList<>();
-//
-//        try {
-//            for (String fileName : data.split("' '")) {
-//                String trimmedFileName = fileName.replace("'", "");
-//
-//                File file = new File(trimmedFileName);
-//                if (file.exists() && file.isFile()) {
-//                    content.add(Files.readString(Path.of(trimmedFileName)));
-//                } else {
-//                    System.err.println("File not found: " + trimmedFileName);
-//                }
-//            }
-//        } catch (Exception _) { }
-//
-//        return String.join("", content);
-//    }
 
     public static String catCommand (String data) {
         List<String> content = new ArrayList<>();
@@ -46,8 +21,7 @@ public class HandleCommands {
 
         try {
             for (String fileName : data.split("' '")) {
-                String trimmedFileName = fileName.replace("'", "");
-
+                String trimmedFileName = Parser.parseCatData(fileName);
                 String[] fullCommand = new String[] {cat, trimmedFileName};
                 Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
 
@@ -89,7 +63,7 @@ public class HandleCommands {
                 return "";
         }
         if (data.equals("~")) {
-            workingDir = getHomeDir();
+            workingDir = PathHandler.getHomeDir();
             return "";
         }
 

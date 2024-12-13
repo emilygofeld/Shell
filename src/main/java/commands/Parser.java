@@ -59,4 +59,28 @@ public class Parser {
 
         return command + ": not found\n";
     }
+
+    public static String parseEchoData(String data) {
+        if (data.startsWith("\"") && data.endsWith("\"")) {
+            return data.replace("\"", "");
+        }
+
+        if (data.startsWith("'") && data.endsWith("'")) {
+            return data.replace("'", "");
+        }
+
+        return data.replaceAll("\\s+", " ").trim();
+    }
+
+    public static String parseCatData(String data) {
+        if (data.startsWith("\"") || data.endsWith("\"")) {
+            return data.replace("\"", "");
+        }
+
+        if (data.startsWith("'") || data.endsWith("'")) {
+            return data.replace("'", "");
+        }
+
+        return data;
+    }
 }
