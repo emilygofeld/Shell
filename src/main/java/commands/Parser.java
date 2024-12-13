@@ -102,29 +102,27 @@ public class Parser {
     }
 
     private static String[] getInput(final String userInput) {
-        final Scanner parserScanner = new Scanner(userInput);
         String enclosingChar = String.valueOf(userInput.charAt(0));
-        boolean isInQuotes = enclosingChar.equals("'") || enclosingChar.equals("\"");
+        String command;
+        String data;
 
-        if (!isInQuotes) {
-            final String cmd = parserScanner.next();
-            final String data = (parserScanner.hasNext()) ? parserScanner.nextLine().substring(1) : "";
-            return new String[] { cmd, data };
+        if (enclosingChar.equals("'") || enclosingChar.equals("\"")) {
+            int lastQuoteIndex = userInput.lastIndexOf(enclosingChar);
+            command = userInput.substring(0, lastQuoteIndex + 1).trim();
+            data = userInput.substring(lastQuoteIndex + 1).trim();
+        } else {
+            int firstSpaceIndex = userInput.indexOf(' ');
+            if (firstSpaceIndex == -1) {
+                command = userInput;
+                data = "";
+            } else {
+                command = userInput.substring(0, firstSpaceIndex).trim();
+                data = userInput.substring(firstSpaceIndex + 1).trim();
+            }
         }
 
-        StringBuilder cmd = new StringBuilder();
-        StringBuilder data = new StringBuilder();
-
-        while (parserScanner.hasNext()) {
-            String next = parserScanner.next();
-
-            if (!next.contains(enclosingChar))
-                cmd.append(next).append(" ");
-            else
-                data.append(parserScanner.nextLine());
-        }
-
-        return new String[] { cmd.toString().trim(), data.toString().trim() };
+        return new String[] { command, data };
     }
+
 }
 
