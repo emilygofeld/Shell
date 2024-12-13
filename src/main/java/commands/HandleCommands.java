@@ -1,8 +1,11 @@
 package main.java.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static main.java.commands.PathHandler.getHomeDir;
@@ -37,6 +40,24 @@ public class HandleCommands {
 //        return String.join("", content);
 //    }
 
+    public static String catCommand (String data) {
+        List<String> content = new ArrayList<>();
+        String cat = "cat";
+
+        try {
+            for (String fileName : data.split("' '")) {
+                String trimmedFileName = fileName.replace("'", "");
+
+                String[] fullCommand = new String[] {cat, trimmedFileName};
+                Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
+
+                content.add(new String(cmdProcess.getInputStream().readAllBytes()));
+            }
+        } catch (Exception _) { }
+
+        return String.join("", content);
+    }
+
     public static String runOtherFilesCommand(String command, String data) {
         try {
             String path = PathHandler.findFilePath(command);
@@ -44,10 +65,9 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
-//            if (command.equals("cat"))
-//                data = data.replace("'", "");
-//
-//            System.out.println(data);
+            if (command.equals("cat"))
+                return catCommand(data);
+
 
             String[] fullCommand = new String[] {command, data};
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
