@@ -21,7 +21,6 @@ public class CommandHandler {
     public static String runOtherFilesCommand(String command, String data) {
         try {
             String formattedCmd = StringFormatter.format(command);
-            System.out.println(formattedCmd);
             String path = PathHandler.findFilePath(formattedCmd);
             if (path == null) {
                 return commandNotFound(command + " " + data);

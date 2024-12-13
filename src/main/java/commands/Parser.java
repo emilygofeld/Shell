@@ -1,7 +1,5 @@
 package main.java.commands;
 
-import main.java.commands.CommandHandler.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
