@@ -12,12 +12,10 @@ public class Parser {
 
     public static String parseCommand(final String userInput) {
 
-        final Scanner parserScanner = new Scanner(userInput);
-        final String command = parserScanner.next();
+        String[] inputs = getInput(userInput);
+        final String command = inputs[0], data = inputs[1];
 
-        String data = "";
-        if (parserScanner.hasNext())
-            data = parserScanner.nextLine().substring(1);
+        System.out.printf("command = %s, data = %s\n", command, data);
 
         final Command cmdType = getCommandType(command);
 
@@ -31,49 +29,12 @@ public class Parser {
         };
     }
 
-    private static String typeCmd(final String data) {
-        final Command type = getCommandType(data);
-
-        if (type != null)
-            return (type.toString().toLowerCase() + " is a shell builtin\n");
-        else
-            return checkNonSpecificCommand(data);
-    }
-
-    private static Command getCommandType(final String command) {
-        try {
-            return Command.valueOf(command.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    private static String checkNonSpecificCommand(String command) {
-        String path = PathHandler.findFilePath(command);
-        if (path != null)
-            return path;
-
-        return command + ": not found\n";
-    }
-
     public static String parseEchoCommand(String cmd) {
         cmd = cmd.replaceAll("\\s+", " ").trim();
         return cmd.replace("\\", "");
     }
 
-    public static String parsePathBackslashes(String path, int quotes) {
-        if (quotes == 2)
-            return path
-                .replace("\\$", "$")
-                .replace("\\\n", "\\n")
-                .replace("\\`", "`")
-                .replace("\\\"", "\"")
-                .replace("\\\\", "\\");
-
-        return path;
-    }
-
-    public static List<String> extractFilePaths(String data) {
+    public static List<String> extractFilePaths(final String data) {
         List<String> filePaths = new ArrayList<>();
         StringBuilder currentPath = new StringBuilder();
         boolean insideSingleQuotes = false;
@@ -113,6 +74,57 @@ public class Parser {
         }
 
         return filePaths;
+    }
+
+    private static String typeCmd(final String data) {
+        final Command type = getCommandType(data);
+
+        if (type != null)
+            return (type.toString().toLowerCase() + " is a shell builtin\n");
+        else
+            return checkNonSpecificCommand(data);
+    }
+
+    private static Command getCommandType(final String command) {
+        try {
+            return Command.valueOf(command.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private static String checkNonSpecificCommand(final String command) {
+        String path = PathHandler.findFilePath(command);
+        if (path != null)
+            return path;
+
+        return command + ": not found\n";
+    }
+
+    private static String[] getInput(final String userInput) {
+        final Scanner parserScanner = new Scanner(userInput);
+        String enclosingChar = String.valueOf(userInput.charAt(0));
+        boolean isInQuotes = enclosingChar.equals("'") || enclosingChar.equals("\"");
+
+        if (!isInQuotes) {
+            final String cmd = parserScanner.next();
+            final String data = (parserScanner.hasNext()) ? parserScanner.nextLine().substring(1) : "";
+            return new String[] { cmd, data };
+        }
+
+        StringBuilder cmd = new StringBuilder();
+        StringBuilder data = new StringBuilder();
+
+        while (parserScanner.hasNext()) {
+            String next = parserScanner.next();
+
+            if (!next.contains(enclosingChar))
+                cmd.append(next).append(" ");
+            else
+                data.append(parserScanner.nextLine());
+        }
+
+        return new String[] { cmd.toString().trim(), data.toString().trim() };
     }
 }
 
