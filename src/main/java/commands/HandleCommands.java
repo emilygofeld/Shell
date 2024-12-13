@@ -28,10 +28,10 @@ public class HandleCommands {
             for (String fileName : data.split("' '")) {
                 String trimmedFileName = fileName.replace("'", "");
                 File file = new File(trimmedFileName);
-                System.out.printf("\nfileName = %s, trimmedName = %s", fileName, trimmedFileName);
-                if (file.exists()) {
+
+//                if (file.exists()) {
                     content.add(Files.readString(Path.of(workingDir + "/" + fileName)));
-                }
+//                }
 
             }
         } catch (Exception _) {}
