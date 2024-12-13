@@ -56,7 +56,7 @@ public class Parser {
 
     public static String parseEchoCommand(String cmd) {
         cmd = cmd.replaceAll("\\s+", " ").trim();
-        return cmd.replace("\\", " ");
+        return cmd.replace("\\", "");
     }
 
     public static String parsePathBackslashes(String path) {
