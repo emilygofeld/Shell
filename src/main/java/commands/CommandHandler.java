@@ -29,7 +29,7 @@ public class CommandHandler {
 
         try {
             // regex to match either single or double-quoted paths
-            Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
+            Matcher matcher = Pattern.compile("(\"[^\"]*\"|'[^']*')").matcher(data);
 
             while (matcher.find()) {
                 String fileName = StringFormatter.format(matcher.group(2));
