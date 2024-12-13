@@ -37,7 +37,7 @@ public class HandleCommands {
             }
         } catch (Exception _) { }
 
-        return String.join(" ", content);
+        return String.join("", content);
     }
 
     public static String runOtherFilesCommand(String command, String data) {
