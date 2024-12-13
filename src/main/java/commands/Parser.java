@@ -59,13 +59,16 @@ public class Parser {
         return cmd.replace("\\", "");
     }
 
-    public static String parsePathBackslashes(String path) {
-        return path
+    public static String parsePathBackslashes(String path, int quotes) {
+        if (quotes == 2)
+            return path
                 .replace("\\$", "$")
                 .replace("\\\n", "\\n")
                 .replace("\\`", "`")
                 .replace("\\\"", "\"")
                 .replace("\\\\", "\\");
+
+        return path;
     }
 }
 

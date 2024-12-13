@@ -38,7 +38,7 @@ public class CommandHandler {
             Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
 
             while (matcher.find()) {
-                String fileName = Parser.parsePathBackslashes(matcher.group(2));
+                String fileName = Parser.parsePathBackslashes(matcher.group(2), 2);
                 content.add(getProcessResult(cat, fileName));
             }
         } catch (Exception _) {
