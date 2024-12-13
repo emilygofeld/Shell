@@ -6,51 +6,22 @@ public class StringFormatter {
     private static boolean insideSingleQuotes = false;
     private static boolean insideDoubleQuotes = false;
 
-//    public static String format(String data) {
-//        output.setLength(0);
-//
-//        for (int i = 0; i < data.length(); i++) {
-//            char current = data.charAt(i);
-//
-//            if (isSingleQuote(current) && !insideDoubleQuotes) {
-//                toggleSingleQuoteState();
-//            } else if (isDoubleQuote(current) && !insideSingleQuotes) {
-//                toggleDoubleQuoteState();
-//            } else if (isBackslash(current) && insideDoubleQuotes) {
-//                handleBackslashesInsideQuotes(data, i);
-//                i++;
-//            } else if (isBackslash(current) && !insideSingleQuotes) {
-//                handleBackslashesOutsideQuotes(data, i);
-//                i++;
-//            } else {
-//                output.append(current);
-//            }
-//        }
-//
-//        return output.toString();
-//    }
-
-
     public static String format(String data) {
-        StringBuilder output = new StringBuilder();
-        boolean insideSingleQuotes = false;
-        boolean insideDoubleQuotes = false;
+        output.setLength(0);
 
         for (int i = 0; i < data.length(); i++) {
             char current = data.charAt(i);
 
-            if (current == '\'' && !insideDoubleQuotes) {
-                insideSingleQuotes = !insideSingleQuotes;
-            } else if (current == '"' && !insideSingleQuotes) {
-                insideDoubleQuotes = !insideDoubleQuotes;
-            } else if (current == '\\' && insideDoubleQuotes && i + 1 < data.length()) {
-                char next = data.charAt(i + 1);
-                if (next == '\\' || next == '$' || next == '"' || next == '`' || next == '\n') {
-                    output.append(next);
-                    i++; // Skip the escaped character
-                } else {
-                    output.append('\\'); // Append the backslash as-is
-                }
+            if (isSingleQuote(current) && !insideDoubleQuotes) {
+                toggleSingleQuoteState();
+            } else if (isDoubleQuote(current) && !insideSingleQuotes) {
+                toggleDoubleQuoteState();
+            } else if (isBackslash(current) && insideDoubleQuotes) {
+                handleBackslashesInsideQuotes(data, i);
+                i++;
+            } else if (isBackslash(current) && !insideSingleQuotes) {
+                handleBackslashesOutsideQuotes(data, i);
+                i++;
             } else {
                 output.append(current);
             }
@@ -58,7 +29,8 @@ public class StringFormatter {
 
         return output.toString();
     }
-    
+
+
     private static boolean isSingleQuote(char current) {
         return current == '\'';
     }

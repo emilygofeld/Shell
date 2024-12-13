@@ -25,13 +25,14 @@ public class CommandHandler {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
+        System.out.println(data);
+
         try {
             // regex to match either single or double-quoted paths
             Matcher matcher = Pattern.compile("(['\"])(.*?)\\1").matcher(data);
 
             while (matcher.find()) {
                 String fileName = StringFormatter.format(matcher.group(2));
-                System.out.println(fileName);
                 content.add(getProcessResult(cat, fileName));
             }
         } catch (Exception e) {
