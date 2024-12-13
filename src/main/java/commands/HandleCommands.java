@@ -44,9 +44,8 @@ public class HandleCommands {
                 return commandNotFound(command + " " + data);
             }
 
-            if (data.startsWith("'") && data.endsWith("'")) {
-                data = data.substring(1, data.length()-1);
-            }
+            if (command.equals("cat"))
+                data = data.replace("'", "");
 
             String[] fullCommand = new String[] {command, data};
             Process cmdProcess = Runtime.getRuntime().exec(fullCommand);
