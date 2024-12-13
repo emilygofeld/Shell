@@ -17,10 +17,6 @@ public class Parser {
         if (parserScanner.hasNext())
             data = parserScanner.nextLine().substring(1);
 
-        if (data.startsWith("'") && data.endsWith("'")) {
-            data = data.substring(1, data.length()-1);
-        }
-
         final Command cmdType = getCommandType(command);
 
         return switch (cmdType) {
