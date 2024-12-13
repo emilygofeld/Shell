@@ -1,21 +1,17 @@
 package main.java.commands;
 
-import main.java.commands.CommandHandler.Command;
+import main.java.commands.CommandHandler.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static main.java.commands.CommandHandler.*;
 
 public class Parser {
 
     public static String parseCommand(final String userInput) {
-
         String[] inputs = getInput(userInput);
         final String command = inputs[0], data = inputs[1];
-
-        System.out.printf("command = %s, data = %s\n", command, data);
 
         final Command cmdType = getCommandType(command);
 
