@@ -25,7 +25,7 @@ public class CommandHandler {
         List<String> content = new ArrayList<>();
         String cat = "cat";
 
-        System.out.println(data);
+        System.out.println(StringFormatter.format(data));
 
         try {
             // regex to match either single or double-quoted paths
