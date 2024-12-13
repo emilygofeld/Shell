@@ -14,10 +14,6 @@ import static main.java.commands.PathHandler.workingDir;
 public class HandleCommands {
 
     public static String echoCommand (String data) {
-        if (data.startsWith("'") && data.endsWith("'")) {
-            return data.substring(1, data.length()-1);
-        }
-
         return data.replaceAll("\\s+", " ").trim();
     }
 
@@ -104,7 +100,6 @@ public class HandleCommands {
         TYPE,
         PWD,
         CD,
-        CAT,
         EXIT
     }
 }
